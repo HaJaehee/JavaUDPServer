@@ -6,28 +6,32 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 
 public class UDPServer {
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 		
-		
+		int port = 10000;
+		ServerSocket server;
 		try {
-			ServerSocket Sock = new ServerSocket(10000);
+			server = new ServerSocket(port);
 			while(true){
-				Socket ReplySocket = Sock.accept();
-				BufferedReader inFromMNS = new BufferedReader(
-						new InputStreamReader(ReplySocket.getInputStream(),Charset.forName("UTF-8")));
+				Socket sock = server.accept();
+				
+				System.out.println("Client : " + sock.getInetAddress());
+				
+				BufferedReader in = new BufferedReader(
+						new InputStreamReader(sock.getInputStream(),Charset.forName("UTF-8")));
+				
 				String inputLine;
 				StringBuffer response = new StringBuffer();
-				while ((inputLine = inFromMNS.readLine()) != null) {
+				while ((inputLine = in.readLine()) != null) {
 					response.append(inputLine.trim());
 				}
 				
 				String result = response.toString();
-				System.out.println("FROM Client: " + result);
+				System.out.println("Data : " + result);
 				
-				inFromMNS.close();
+				in.close();
+				sock.close();
 			}
-			
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
