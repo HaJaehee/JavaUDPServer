@@ -20,14 +20,8 @@ public class UDPServer {
 				BufferedReader in = new BufferedReader(
 						new InputStreamReader(sock.getInputStream(),Charset.forName("UTF-8")));
 				
-				String inputLine;
-				StringBuffer response = new StringBuffer();
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine.trim());
-				}
-				
-				String result = response.toString();
-				System.out.println("Data : " + result);
+				String inputLine = in.readLine();
+				System.out.println("Data : " + inputLine);
 				
 				in.close();
 				sock.close();
